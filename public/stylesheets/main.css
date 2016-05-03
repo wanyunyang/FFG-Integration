@@ -1,0 +1,31 @@
+.navbar-brand-logo {
+    padding: 6px 15px;
+}
+.navbar-brand img {
+    height: 38px;
+}
+
+html, body {
+    height: 100%;
+}
+
+#main-container {
+    height: 100%;
+    margin-top: 50px;
+    /*border-left: #81b5ef 1px solid;
+    border-right: #81b5ef 1px solid;*/
+}
+
+.shadow-panel {
+    padding: 15px;
+    background-color: white;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-panel h2 {
+    margin-top: 0;
+}
+
+.spacing-panel {
+    padding: 5px;
+}

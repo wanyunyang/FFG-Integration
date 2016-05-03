@@ -1,0 +1,21 @@
+@(newUser: models.User)
+
+@import emails.email_template
+
+@email_template {
+<tr>
+    <td><h2>You've successfully registered</h2></td>
+</tr>
+<tr><td>
+    Dear @newUser.getName,
+    <br><br>
+    Congratulations, you have successfully registered on Careers From Here website.
+    You will be able to login to the website once school administrator approves your account.
+    <br><br>
+    We will notify you once your account has been approved. Thanks!
+    <br><br>
+    Yours,
+    <br>
+    Careers From Here team
+</td></tr>
+}

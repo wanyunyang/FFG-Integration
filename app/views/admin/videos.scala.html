@@ -1,0 +1,67 @@
+@(user: models.User)(videoList: java.util.List[models.Video])
+
+@*
+    Video Listing page -- lists all videos and provides links with common actions
+*@
+
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Admin Dashboard: Video Management - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel">
+        <div class="shadow-panel table-responsive">
+            <a class="btn btn-default action-button"
+            href="@routes.AdminController.videos(1)">
+                <span class="glyphicon glyphicon-filter"></span> Show unapproved videos only</a>
+            <a class="btn btn-default action-button"
+            href="@routes.AdminController.videos(0)">
+                <span class="glyphicon glyphicon-filter"></span> Show all videos</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Author</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(video <- videoList) {
+                    <tr>
+                        <td><a href="@routes.VideoController.view(video.getId)">@video.getTitle</a></td>
+                        <td>@video.getUser.getName</td>
+                        <td>
+                            <div class="action-button-place"><a class="btn btn-default action-button"
+                                href="@routes.AdminController.getVideo(video.getId)">
+                            <span class="glyphicon glyphicon-pencil"></span> Edit</a></div>
+
+                            <div class="action-button-place">
+                            @helper.form(action = routes.AdminController.approveVideo) {
+                                <input type="hidden" name="id" value="@video.getId" />
+                                @* CSRF here *@
+                                <button class="btn btn-success action-button @if(video.getApproved) { disabled }" type="submit">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    @if(video.getApproved) { Approved } else { Approve }
+                                </button>
+                            }</div>
+
+                            <div class="action-button-place">
+                            @helper.form(action = routes.AdminController.deleteVideo) {
+                                <input type="hidden" name="id" value="@video.getId" />
+                                @* CSRF here *@
+                                <button class="btn btn-danger action-button" type="submit">
+                                    <span class="glyphicon glyphicon-remove"></span> Delete</button>
+                            } </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

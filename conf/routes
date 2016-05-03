@@ -1,0 +1,87 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Video gallery pages
+GET         /                                   controllers.VideoController.index()
+POST        /                                   controllers.VideoController.categorySelect()
+GET         /view/:id                           controllers.VideoController.view(id: Long)
+GET         /assets/clips/*path                 controllers.VideoController.getVideoAt(path)
+
+# User info edit page
+GET         /edit                               controllers.UserController.getUserDetails()
+POST        /edit                               controllers.UserController.postUserDetails()
+
+# Alumni video edit page
+GET         /myvideos                           controllers.UserController.videos()
+GET         /myvideos/manage/:id                controllers.UserController.getVideo(id: Long)
+POST        /myvideos/manage/:id                controllers.UserController.postVideo(id: Long)
+POST        /myvideos/delete                    controllers.UserController.deleteVideo()
+
+# Admin pages
+GET         /admin                              controllers.AdminController.index()
+GET         /admin/users                        controllers.AdminController.users(unapprovedonly:Int ?= 0)
+GET         /admin/users                        controllers.AdminController.users(unapprovedonly:Int ?= 1)
+GET         /admin/videos                       controllers.AdminController.videos(unapprovedonly:Int ?= 0)
+GET         /admin/videos                       controllers.AdminController.videos(unapprovedonly:Int ?= 1)
+GET         /admin/questions                    controllers.AdminController.questions()
+GET         /admin/schools                      controllers.AdminController.schools()
+GET         /admin/categories                   controllers.AdminController.categories()
+
+# Admin pages: Users
+GET         /admin/users/manage/new             controllers.AdminController.getNewUser()
+GET         /admin/users/manage/:id             controllers.AdminController.getUser(id: Long)
+POST        /admin/users/manage/new             controllers.AdminController.postNewUser()
+POST        /admin/users/manage/:id             controllers.AdminController.postUser(id: Long)
+POST        /admin/users/approve                controllers.AdminController.approveUser()
+POST        /admin/users/delete                 controllers.AdminController.deleteUser()
+GET         /admin/users/bulkregister           controllers.AdminController.getBulkRegister()
+POST        /admin/users/bulkregister           controllers.AdminController.postBulkRegister()
+
+# Admin pages: Videos
+GET         /admin/videos/manage/:id            controllers.AdminController.getVideo(id: Long)
+POST        /admin/videos/manage/:id            controllers.AdminController.postVideo(id: Long)
+POST        /admin/videos/delete                controllers.AdminController.deleteVideo()
+POST        /admin/videos/approve               controllers.AdminController.approveVideo()
+
+# Admin pages: Questions
+GET         /admin/questions/manage/new         controllers.AdminController.getNewQuestion()
+GET         /admin/questions/manage/:id         controllers.AdminController.getQuestion(id: Long)
+POST        /admin/questions/manage/new         controllers.AdminController.postNewQuestion()
+POST        /admin/questions/manage/:id         controllers.AdminController.postQuestion(id: Long)
+POST        /admin/questions/delete             controllers.AdminController.deleteQuestion()
+POST        /admin/questions/reorder            controllers.AdminController.reorderQuestions()
+
+# (Super) admin pages: Schools
+GET         /admin/schools/manage/new           controllers.AdminController.getNewSchool()
+GET         /admin/schools/manage/:id           controllers.AdminController.getSchool(id: Long)
+POST        /admin/schools/manage/new           controllers.AdminController.postNewSchool()
+POST        /admin/schools/manage/:id           controllers.AdminController.postSchool(id: Long)
+POST        /admin/schools/delete               controllers.AdminController.deleteSchool()
+
+# (Super) admin pages: Categories
+GET         /admin/categories/manage/new        controllers.AdminController.getNewCategory()
+GET         /admin/categories/manage/:id        controllers.AdminController.getCategory(id: Long)
+POST        /admin/categories/manage/new        controllers.AdminController.postNewCategory()
+POST        /admin/categories/manage/:id        controllers.AdminController.postCategory(id: Long)
+POST        /admin/categories/delete            controllers.AdminController.deleteCategory()
+
+# Recording
+GET         /record                             controllers.VideoController.record()
+POST        /record/publish                     controllers.UploadController.uploadVideo()
+
+# Registering
+GET         /register                           controllers.RegistrationController.getAlumniRegForm()
+GET         /register_school                    controllers.RegistrationController.getSchoolRegForm()
+POST        /register                           controllers.RegistrationController.postAlumniRegForm()
+POST        /register_school                    controllers.RegistrationController.postSchoolRegForm()
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                       controllers.Assets.at(path="/public", file)
+
+#Login page
+GET         /login                              controllers.RegistrationController.login()
+POST        /login                              controllers.RegistrationController.authenticate()
+GET         /logout                             controllers.RegistrationController.logout()
+GET         /resetpassword                      controllers.RegistrationController.getResetPassword()
+POST        /resetpassword                      controllers.RegistrationController.resetPassword()

@@ -1,0 +1,82 @@
+@(videos: java.util.List[models.Video])(catForm: Form[views.forms.CategorySelectionForm])(categoryMap: Map[String, Boolean])(user: models.User)
+
+@*
+    Video Gallery (index) page. Displays videos in a grid, allowing user to filter by categories.
+    @videos - list of videos user can access
+    @catForm - category selection form (List<Category>)
+    @categoryMap - 'category name' - 'selected' (bool) map
+    @user - currently logged in user
+*@
+
+@import bootstrap3._
+@import helpers.FormatHelper.SecToMMSS
+
+@stylesheets = {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/index.css")">
+}
+
+@javascripts = {
+    <script>
+        $(function() {
+            $("#category-section-name" ).click(function() {
+                if(isBreakpoint("xs"))
+                    $("#categories").slideToggle();
+            });
+
+            var resizeFn = function() {
+                if(isBreakpoint("xs")) {
+                    // remove css, collapse bar
+                    $("#category-sidebar").css("display", "block");
+                    $("#video-grid").css("display", "block");
+                    $("#categories").hide();
+
+                } else {
+                    // add css, expand the bar
+                    $("#category-sidebar").css("display", "table-cell");
+                    $("#video-grid").css("display", "table-cell");
+                    $("#categories").show();
+                }
+            };
+
+            $(window).resize(resizeFn);
+            resizeFn();
+
+        });
+    </script>
+}
+
+@main("Careers From Here")(stylesheets)(javascripts)(user) {
+    <div id="content-wrapper">
+        <div class="row">
+            <div id="category-sidebar" class="col-md-3 col-sm-4">
+                <div id="category-section-name">
+                    <h2>Categories <span class="glyphicon glyphicon-chevron-down"></span></h2>
+                </div>
+
+                <div id="categories">
+                    @helper.form(action = routes.VideoController.categorySelect) {
+                        <fieldset>
+                            @checkboxes(catForm("categories"),
+                                checkboxMap = categoryMap,
+                                help = "")
+                            <button id="submit" type="submit" value="Submit" class="btn btn-primary">Update</button>
+                        </fieldset>
+                    }
+                </div>
+            </div>
+            <div id="video-grid" class="col-md-9 col-sm-8">
+                @for(video <- videos) {
+                    <a href="@routes.VideoController.view(video.getId)">
+                        <div class="video-grid-element col-sm-6 col-md-4"
+                            style="background-image: url(@video.getThumbnailPath)">
+                            <div class="video-info-overlay">
+                                <h2>@video.getTitle</h2>
+                                <span>@SecToMMSS(video.getDuration.toInt)</span>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+}

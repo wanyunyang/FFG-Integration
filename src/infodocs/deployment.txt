@@ -1,0 +1,18 @@
+Deployment instructions
+
+SET-UP:
+1) Update application.conf to reflect your server configuration, in particular 'videopath' and database access
+
+LOCAL:
+1) Install "typesafe activator" tool, required for the play framework
+2) In terminal, go to the root of the git directory
+3) Type "activator dist" and run it
+4) Go to "target/universal"
+5) In this directory, there is a file called "november-1.0.zip"
+6) Copy the zip file to the server, where the database is
+
+SERVER:
+1) unzip the zip file "november-1.0.zip"
+2) the executable will be in "november-1.0/bin"
+3) to run the server type "./november"
+4) NB. java 8 is required for running the website

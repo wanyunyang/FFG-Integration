@@ -1,0 +1,41 @@
+This document provides a few (boring) manual UI testing plans:
+
+* Category filtering
+    Test:
+    1. Navigate to main page
+    2. Select categories, that some videos you see don't fall in
+    3. Click update
+    Expected:
+    1. Some videos disappeared
+    2. Only videos that do not belong to any selected category disappeared
+    3. Page displays your selected categories
+
+* Logging in
+    Test:
+    1. Navigate to main page
+    2. Click 'Login' link
+    3. Fill in incorrect email and password
+    4. Upon failure, fill in working email and password combination
+    Expected:
+    1. Main page shows login link
+    2. Login page displays email and password fields
+    3. Login page displays error message on incorrect email or password
+    4. Logged in user is redirected to index page
+
+* Video viewing
+    Test:
+    1. Navigate to main page and click any video
+    2. Click 'Play' (>) button
+    3. Click 'Pause' button
+    4. Click 'Play' button and wait until question switches
+    5. Manually seek to a different question section
+    6. Click skip '>' to go to different question section
+    7. Click skip '<' to go to different question section
+    Expected:
+    1. Video player displays, with controls
+    2. Videos starts playing
+    3. Video pauses
+    4. Video plays again, popup with question is displayed, player switches to next question
+    5. Video player displays another question
+    6. Video player skips to popup of previous question
+    7. Video player skips to popup of next question

@@ -1,0 +1,51 @@
+@(user: models.User)(videoList: java.util.List[models.Video])
+
+@*
+    User Video Listing page -- lists all videos that user has uploaded and provides links with common actions
+*@
+
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Your Video Management Page - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel">
+        <div class="shadow-panel table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Approved</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(video <- videoList) {
+                    <tr>
+                        <td><a href="@routes.VideoController.view(video.getId)">@video.getTitle</a></td>
+                        <td>@video.getApproved</td>
+                        <td>
+                            <div class="action-button-place"><a class="btn btn-default action-button"
+                                href="@routes.UserController.getVideo(video.getId)">
+                            <span class="glyphicon glyphicon-pencil"></span> Edit</a></div>
+
+                            <div class="action-button-place">
+                            @helper.form(action = routes.UserController.deleteVideo) {
+                                <input type="hidden" name="id" value="@video.getId" />
+                                @* CSRF here *@
+                                <button class="btn btn-danger action-button" type="submit">
+                                    <span class="glyphicon glyphicon-remove"></span> Delete</button>
+                            } </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

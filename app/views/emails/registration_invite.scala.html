@@ -1,0 +1,25 @@
+@(newUser: models.User)(password: String)
+
+@import emails.email_template
+
+@email_template {
+<tr>
+    <td><h2>You've been invited to join Careers From Here!</h2></td>
+</tr>
+<tr><td>
+    Dear @newUser.getName,
+    <br><br>
+    One of the administrators of @newUser.getSchool.getName has invited you to join the Careers From Here website.
+    They have created a @newUser.getDiscriminator account for you. Your account has already been created,
+    your password is below:
+    <br><br>
+    Password: @password
+    <br><br>
+    You can change your password any time by logging into your account. Use this email address and the password above
+        to <a href="@routes.RegistrationController.login().absoluteURL()">log in</a>. Thanks!
+    <br><br>
+    Yours,
+    <br>
+    Careers From Here team
+</td></tr>
+}

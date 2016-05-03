@@ -1,0 +1,76 @@
+@(currentUser: models.User)(userList: java.util.List[models.User])
+
+@*
+    User Listing page -- lists all users and provides links with common actions
+*@
+
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Admin Dashboard: User Management - Careers From Here")(stylesheets)(javascripts)(currentUser) {
+    <div class="spacing-panel">
+        <div class="shadow-panel table-responsive">
+            <a class="btn btn-default action-button"
+            href="@routes.AdminController.getNewUser()">
+                <span class="glyphicon glyphicon-plus"></span> Add user</a>
+            <a class="btn btn-default action-button"
+            href="@routes.AdminController.getBulkRegister()">
+                <span class="glyphicon glyphicon-plus"></span> Bulk register users by email</a>
+            <a class="btn btn-default action-button"
+            href="@routes.AdminController.users(1)">
+                <span class="glyphicon glyphicon-filter"></span> Show unapproved users only</a>
+            <a class="btn btn-default action-button"
+            href="@routes.AdminController.users(0)">
+                <span class="glyphicon glyphicon-filter"></span> Show all users</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(user <- userList) {
+                    <tr>
+                        <td>@user.getName</td>
+                        <td>@user.getEmail</td>
+                        <td>
+                            <div class="action-button-place">
+                            <a class="btn btn-default action-button"
+                            href="@routes.AdminController.getUser(user.getId)">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                            </div>
+
+                            <div class="action-button-place">
+                            @helper.form(action = routes.AdminController.approveUser) {
+                                <input type="hidden" name="id" value="@user.getId" />
+                                @* CSRF here *@
+                                <button class="btn btn-success action-button @if(user.getApproved) { disabled }" type="submit">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    @if(user.getApproved) { Approved } else { Approve }</button>
+                            }
+                            </div>
+
+                            <div class="action-button-place">
+                            @helper.form(action = routes.AdminController.deleteUser) {
+                                <input type="hidden" name="id" value="@user.getId" />
+                                @* CSRF here *@
+                                <button class="btn btn-danger action-button" type="submit">
+                                    <span class="glyphicon glyphicon-remove"></span> Delete</button>
+                            }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

@@ -1,0 +1,79 @@
+@(user: models.User)(form: play.data.Form[views.forms.UserForm])(id: Long)(schoolMap: java.util.Map[String, Boolean])(discrMap: java.util.Map[String, Boolean])(auth: Boolean)
+
+@*
+    Display a form, that allows editing a user
+    UserForm with a multiple fields:
+        @name - name of the user
+        @email - email
+        @password - password
+        @school - school (only superadmins can select a value here)
+        @discriminator - what type of user should user be (only available on creation)
+        @profile - alumni profile information (only for alumni)
+    Expected input:
+        @user - currently logged-in user
+        @form - UserForm with mentioned fields
+        @id - id of user, that is being edited (null if user is being created)
+        @schoolMap - 'school name' to 'selected' (bool) map
+        @discrMap - 'discriminator' string to 'selected' (bool) map
+        @auth - true if user is authorised to select the school (i.e. superadmin)
+*@
+
+@import bootstrap3._
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Admin Dashboard: User Management - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel">
+        <div class="shadow-panel">
+            <h2>Edit user information</h2>
+            <hr>
+            @helper.form(action =
+                    if (id == null) { routes.AdminController.postNewUser() }
+                    else { routes.AdminController.postUser(id) }) {
+                <fieldset>
+                    @text(form("name"),
+                        label = "Name",
+                        placeholder = "User Name",
+                        help = "Please enter user's first and last name (required).")
+                    @text(form("email"),
+                        label = "Email",
+                        placeholder = "email@example.com",
+                        help = "Please enter user's email (required).")
+                    @password(form("password"),
+                        label = "Password",
+                        placeholder = "",
+                        help = "Input new password to change it, otherwise leave blank.")
+                    @select(form("school"),
+                        label = "School",
+                        isMultiple = false,
+                        optionMap = schoolMap,
+                        disabled = (auth == false))
+                    @select(form("discriminator"),
+                        label = "User type",
+                        isMultiple = false,
+                        optionMap = discrMap,
+                        disabled = (id != null))
+                    @if(form("discriminator").value == "alumni") {
+                        @textarea(form("profile"),
+                            label = "Alumni Profile")
+                    } else {
+                        <input type="hidden" name="@form("profile").name" value="@form("profile").value">
+                    }
+                    <input type="hidden" name="@form("id").name" value="@form("id").value">
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="submit" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+
+}

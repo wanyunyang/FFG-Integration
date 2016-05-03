@@ -1,0 +1,52 @@
+@(currentUser: models.User)(form: play.data.Form[views.forms.BulkRegisterForm])(schoolMap: java.util.Map[String, Boolean])(discrMap: java.util.Map[String, Boolean])(auth: Boolean)
+
+@*
+    Form for registering users in bulk.
+    @currentUser - currently logged-in admin
+    @form - bulk registration form to display (expected: school, discriminator (what type to register), email list)
+    @schoolMap - 'school name' to 'selected' (bool) map
+    @discrMap - 'discriminator' string to 'selected' (bool) map
+    @auth - true if user is authorised to select the school (i.e. superadmin)
+*@
+
+@import bootstrap3._
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Admin Dashboard: Bulk User Registration - Careers From Here")(stylesheets)(javascripts)(currentUser) {
+    <div class="spacing-panel">
+        <div class="shadow-panel">
+            <h2>Bulk register users</h2>
+            <hr>
+            @helper.form(action =
+                    routes.AdminController.postBulkRegister() ) {
+                <fieldset>
+                    @select(form("school"),
+                        label = "School",
+                        isMultiple = false,
+                        optionMap = schoolMap,
+                        disabled = (auth == false))
+                    @select(form("discriminator"),
+                        label = "User type",
+                        isMultiple = false,
+                        optionMap = discrMap)
+                    @textarea(form("data"),
+                        label = "Enter an email address per line for each user you want to create",
+                        placeholder = "e.g. teststudent@example.com",
+                        rows = "10")
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="submit" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,59 @@
+@(user: models.User)(form: play.data.Form[views.forms.VideoForm])(id: Long)(catMap: java.util.Map[String, Boolean])(publicAccessMap: java.util.Map[String, Boolean])
+
+@*
+    Display a form, that allows editing metadata of a video
+    VideoForm with a multiple fields:
+        @title - title of the video
+        @description - description of the video
+        @categories - categories, video belongs to
+        @publicaccess - whether video is public or not
+    Expected input:
+        @user - currently logged-in user
+        @form - VideoForm with mentioned fields
+        @id - id of the video, that is being edited
+        @catMap - 'category name' to 'selected' (bool) map
+        @publicAccessMap - {'Yes'/'No'} string to 'selected' (bool) map
+*@
+
+@import bootstrap3._
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/chosen.min.css")" />
+}
+
+@javascripts = {
+    <script src="@routes.Assets.at("javascripts/chosen.jquery.min.js")" type="text/javascript"></script>
+    <script>$(function() { $("#categories").chosen();  });</script>
+}
+
+@main("Admin Dashboard: Video Management - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel">
+        <div class="shadow-panel">
+            <h2>Edit video metadata</h2>
+            <hr>
+            @helper.form(action = routes.AdminController.postVideo(id)) {
+                <fieldset>
+                    @text(form("title"),
+                        label = "Title")
+                    @textarea(form("description"),
+                        label = "Description",
+                        help = "Provide brief summary of the video.")
+                    @select(form("categories"),
+                        label = "Categories",
+                        isMultiple = true,
+                        optionMap = catMap)
+                    @select(form("publicaccess"),
+                        label = "Public Access",
+                        isMultiple = false,
+                        optionMap = publicAccessMap)
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="submit" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+}

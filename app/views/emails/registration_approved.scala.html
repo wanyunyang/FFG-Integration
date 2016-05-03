@@ -1,0 +1,24 @@
+@(newUser: models.User)
+
+@import emails.email_template
+
+@email_template {
+    <tr>
+        <td><h2>Your account has been approved!</h2></td>
+    </tr>
+    <tr><td>
+        Dear @newUser.getName,
+        <br><br>
+        Congratulations, your account on Careers From Here has been approved.
+        <br>
+        Now you can login and access our video library and, most importantly, share your own experience with students
+        by recording an interview.
+        <br><br>
+        Use this email address and password you've specified when registering to
+            <a href="@routes.RegistrationController.login().absoluteURL()">log in</a>. Thanks!
+        <br><br>
+        Yours,
+        <br>
+        Careers From Here team
+    </td></tr>
+}

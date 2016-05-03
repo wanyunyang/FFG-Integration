@@ -1,0 +1,38 @@
+@(user: models.User)(form: play.data.Form[views.forms.SchoolForm])(id: Long)
+
+@*
+    Display a form, that allows editing a school
+    SchoolForm with a single field - name of the school
+*@
+
+@import bootstrap3._
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Admin Dashboard: School Management - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel">
+        <div class="shadow-panel">
+            <h2>Edit school information</h2>
+            <hr>
+            @helper.form(action =
+                    if (id == null) { routes.AdminController.postNewSchool() }
+                    else { routes.AdminController.postSchool(id) }) {
+                <fieldset>
+                    @text(form("name"),
+                        label = "Name")
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="submit" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+}

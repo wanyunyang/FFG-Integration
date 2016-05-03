@@ -1,0 +1,63 @@
+@(questions: java.util.List[Question])(JSONquestions: String)(JSONdurations: String)(user: models.User)
+
+@*
+    Interview Recording page.
+    @questions - list of questions to answer
+    @JSONquestions - question list, formatted as JSON
+    @JSONdurations - question duration list, formatted as JSON
+    @user - currently logged in user
+*@
+
+@import helpers.FormatHelper.SecToMMSS
+
+@stylesheets = {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/view.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/video-player.css")" />
+}
+
+@javascripts = {
+    <script src="http://RecordRTC.org/latest.js"></script>
+    <script src="@routes.Assets.at("javascripts/recorder.js")"></script>
+}
+
+@main("Record new interview - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel col-md-7">
+        @recorder(JSONquestions)(JSONdurations)(user.getId())
+    </div>
+
+    <div class="col-md-5">
+        <div class="spacing-panel">
+            <div class="shadow-panel clearfix">
+                <h2>Questions</h2>
+                <div>
+                    @for(question <- questions) {
+                        <div class="question clearfix">
+                            <div class="col-xs-9">@question.getText()</div>
+                            <div class="col-xs-3">@SecToMMSS(question.getDuration.toInt)</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="spacing-panel">
+            <div class="shadow-panel clearfix">
+                <h2>Metadata</h2>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Title</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="video-title"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" rows="3" id="video-description"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+}

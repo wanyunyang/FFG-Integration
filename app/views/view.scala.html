@@ -1,0 +1,39 @@
+@(video: models.Video)(user: models.User)
+
+@*
+    Video viewing page
+    @video - video to be shown
+    @user - currently logged-in user
+*@
+
+@stylesheets = {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/view.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/video-player.css")" />
+}
+
+@javascripts = {
+    <script src="@routes.Assets.at("javascripts/video-player.js")" type="text/javascript"></script>
+}
+
+@main(video.getTitle + " - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel col-md-7">
+            @video_player(video.getJSONPaths)(video.getJSONQuestionsText)(video.getJSONDurations)(video.getDuration)
+        <div id="video-metadata" class="shadow-panel">
+            <h2>@video.getTitle</h2>
+            <p>@video.getDescription</p>
+            <ul id="catlist">
+                <label>Categories: </label>
+                @for(cat <- video.getCategories) {
+                    <li>@cat.getName</li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="spacing-panel col-md-5">
+        <div id="uploader-info" class="shadow-panel clearfix">
+                <img class="profile-picture" src="@routes.Assets.at("images/placeholderProfile.png")" />
+                <h3>@video.getUser().getName()</h3>
+                <p>@video.getUser().getProfile()</p>
+        </div>
+    </div>
+}

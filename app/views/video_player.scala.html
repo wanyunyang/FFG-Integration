@@ -1,0 +1,42 @@
+@(paths: String)(questions: String)(durations: String)(totalDuration: Double)
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<div id="video-player-container">
+    <div id="video-viewport">
+        <video id="video-player" preload="metadata"
+            data-total-duration="@totalDuration" data-paths="@paths" data-questions="@questions" data-durations="@durations">
+            <source type="video/mp4" style="display: none">
+        </video>
+
+        <div id="poster"><img id="poster-img"></div>
+
+        <div id="overlay"></div>
+        <div id="underlay"></div>
+
+    </div>
+    <div class="progress">
+        <div class="progress-bar" style="width: 0%"></div>
+    </div>
+    <div id="video-controls">
+        <button id="prev-section-button" class="prev btn btn-default" onclick="prev();">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+        <button id="play-pause-button" class="play btn btn-default" onclick="playPause();">
+            <span class="glyphicon glyphicon-play"></span>
+            <span class="glyphicon glyphicon-pause" style="display: none"></span>
+        </button>
+        <button id="next-section-button" class="next btn btn-default" onclick="next();">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </button>
+        <button id="stop-button" class="stop btn btn-default" onclick="stop();">
+            <span class="glyphicon glyphicon-stop"></span>
+        </button>
+        <button id="volume-down-button" class="volume-down btn btn-default" onclick="volumeChanged('down');">
+            <span class="glyphicon glyphicon-volume-down"></span>
+        </button>
+        <button id="volume-up-button" class="volume-up btn btn-default" onclick="volumeChanged('up');">
+            <span class="glyphicon glyphicon-volume-up"></span>
+        </button>
+    </div>
+</div>

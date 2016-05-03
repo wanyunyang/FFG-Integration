@@ -1,0 +1,54 @@
+@(form: play.data.Form[views.forms.SchoolRegForm])(schoolMap: java.util.Map[String, Boolean])
+
+@*
+    School Registration Form
+    Displays fields:
+    @school - school, alumni wants to be involved with
+    @name - name of the alumni
+    @email - email
+    @password - password
+    Requires:
+    @form - SchoolRegForm with mentioned fields
+    @schoolMap - 'school name' to 'selected' (bool)
+*@
+
+@import bootstrap3._
+
+@stylesheets = {
+<link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Edit your school admin details - Careers From Here")(stylesheets)(javascripts)(null) {
+    <div class="spacing-panel">
+        <div class="shadow-panel">
+            <h2>New school registration</h2>
+            <hr>
+            @helper.form(action = routes.RegistrationController.postSchoolRegForm) {
+                <fieldset>
+                    @select(form("school"),
+                        label = "School",
+                        isMultiple = false,
+                        optionMap = schoolMap)
+                    @text(form("name"),
+                        label = "Name",
+                        placeholder = "Full Name")
+                    @text(form("email"),
+                        label = "Email",
+                        placeholder = "email@example.com")
+                    @password(form("password"),
+                        label = "Password")
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="submit" type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        </div>
+    </div>
+
+}

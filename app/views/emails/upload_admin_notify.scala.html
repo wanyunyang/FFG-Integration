@@ -1,0 +1,27 @@
+@(admin: models.User)(video: models.Video)
+
+@import emails.email_template
+
+@email_template {
+    <tr>
+    <td><h2>New video uploaded</h2></td>
+    </tr>
+    <tr><td>
+        Dear @admin.getName,
+        <br><br>
+        A new video has been uploaded to your school on Careers From Here. Please review the registration and either approve or
+        delete the video.
+        <br><br>
+        Video Title: @video.getTitle
+        <br>
+        Video Description: @video.getDescription
+        <br>
+        Uploader Name: @video.getUser.getName
+        <br><br>
+        <a href="@routes.AdminController.videos(1).absoluteURL()">Click here to access the unapproved videos section of the administrative panel.</a>
+        <br><br>
+        Yours,
+        <br>
+        Careers From Here team
+    </td></tr>
+}

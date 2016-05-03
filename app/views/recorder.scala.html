@@ -1,0 +1,38 @@
+@(JSONquestions: String)(JSONdurations: String)(name: Long)
+
+<link rel="stylesheet" href="@routes.Assets.at("stylesheets/recorder.css")" />
+
+<div id="recorder-container" data-questions="@JSONquestions" data-durations="@JSONdurations" data-name="video@name-">
+    <div id="recorder-viewport">
+        <div id="overlay-top"></div>
+
+        <audio id="recorder-audio" preload="metadata"></audio>
+        <video id="recorder-video" preload="metadata"></video>
+
+        <div id="overlay-full"></div>
+    </div>
+
+    <div id="progress-bar-container" class="clearfix">
+        <div id="left-clock"></div>
+
+        <div class="progress">
+            <div class="progress-bar" style="width: 0%"></div>
+        </div>
+
+        <div id="right-clock"></div>
+    </div>
+
+    <div id="recorder-controls">
+        <button id="retry-button" class="btn btn-default" onclick="retry()">
+            <span class="glyphicon glyphicon-repeat"></span>
+        </button>
+        <button id="start-stop-play-pause-button" class="btn btn-default" onclick="startStopPlayPause()">
+            <span class="glyphicon glyphicon-record"></span>
+        </button>
+        <button id="next-button" class="btn btn-default" onclick="next()">
+            <span class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+    </div>
+</div>
+
+<button id="publish" class="btn btn-success" onclick="publish()">Publish</button>

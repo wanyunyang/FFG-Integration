@@ -1,0 +1,84 @@
+@(user: models.User)
+
+@*
+    Administrator Dashboard -- provides a menu for admins to manage different parts of the system.
+*@
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Admin Dashboard - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel">
+        <div id="actions-links" class="shadow-panel clearfix">
+
+            @* Users *@
+            <div><a class="btn btn-primary choice-button col-md-6" href="@routes.AdminController.users(0)">
+                <h3><span class="glyphicon glyphicon-user"></span> Manage users</h3>
+                <p>Click here to:
+                <ul>
+                    <li>Approve new user registrations</li>
+                    <li>Create new users</li>
+                    <li>Edit existing user information</li>
+                    <li>Delete users</li>
+                </ul>
+                </p>
+            </a></div>
+
+            @* Videos *@
+            <div><a class="btn btn-primary choice-button col-md-6" href="@routes.AdminController.videos(0)">
+                <h3><span class="glyphicon glyphicon-facetime-video"></span> Manage Videos</h3>
+                <p>Click here to:
+                <ul>
+                    <li>View and approve newly recorded interviews</li>
+                    <li>List currently available videos</li>
+                    <li>Edit existing video metadata, such as description</li>
+                    <li>Delete videos</li>
+                </ul>
+                </p>
+            </a></div>
+
+            @* Questions *@
+            <div><a class="btn btn-primary choice-button col-md-6" href="@routes.AdminController.questions">
+                <h3><span class="glyphicon glyphicon-question-sign"></span> Manage Questions</h3>
+                <p>Click here to:
+                <ul>
+                    <li>View current interview questions</li>
+                    <li>Reorder questions for new interviews</li>
+                    <li>Edit or remove the questions</li>
+                </ul>
+                </p>
+            </a></div>
+
+            @if(user.getDiscriminator == "superadmin") {
+                @* Schools *@
+                <div><a class="btn btn-primary choice-button col-md-6" href="@routes.AdminController.schools">
+                    <h3><span class="glyphicon glyphicon-education"></span> Manage Schools</h3>
+                    <p>Click here to:
+                <ul>
+                    <li>View schools that use the system</li>
+                    <li>Edit information about the school</li>
+                    <li>Add or remove schools</li>
+                </ul>
+                    </p>
+                </a></div>
+
+                @* Categories *@
+                <div><a class="btn btn-primary choice-button col-md-6" href="@routes.AdminController.categories">
+                    <h3><span class="glyphicon glyphicon-list"></span> Manage categories</h3>
+                    <p>Click here to:
+                <ul>
+                    <li>View all possible video categories</li>
+                    <li>Edit the category names</li>
+                    <li>Add or remove categories</li>
+                </ul>
+                    </p>
+                </a></div>
+            }
+        </div>
+    </div>
+}

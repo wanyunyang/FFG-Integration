@@ -1,0 +1,20 @@
+@(user: models.User)
+
+@import emails.email_template
+
+@email_template {
+    <tr>
+    <td><h2>Upload successful!</h2></td>
+    </tr>
+    <tr><td>
+        Dear @user.getName,
+        <br><br>
+        Your video has been successfully uploaded to the Careers From Here wesbite. You video still needs to be approved
+        by your school's admins, who have been notified that you have uploaded your video. When it is approved it will show
+        up on the site.
+        <br><br>
+        Yours,
+        <br>
+        Careers From Here team
+    </td></tr>
+}

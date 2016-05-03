@@ -1,0 +1,38 @@
+@(loginForm: play.data.Form[views.forms.LoginForm])
+
+@*
+    Login page
+    @loginForm - LoginForm with user and password fields
+*@
+
+@import bootstrap3._
+
+@stylesheets = {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
+}
+
+@javascripts = {
+
+}
+
+@main("Login")(stylesheets)(javascripts)(null) {
+    <div class="spacing-panel col-md-offset-3 col-md-6">
+        <div class="shadow-panel">
+            <h2>Login</h2>
+            <hr>
+            <fieldset>
+                @helper.form(action = routes.RegistrationController.authenticate) {
+                        @text(loginForm("email"), label = "Email")
+                        @password(loginForm("password"), label = "Password")
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="submit" type="submit" value="Submit" class="btn btn-primary">Login</button>
+                                <a id="forgot-link" href="@routes.RegistrationController.getResetPassword()">Forgot your password?</a>
+                            </div>
+                        </div>
+                }
+            </fieldset>
+
+        </div>
+    </div>
+}

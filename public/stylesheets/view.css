@@ -1,0 +1,48 @@
+#video-player-container {
+    margin-top: 30px;
+}
+
+#video-metadata {
+    max-width: 640px;
+}
+
+#video-metadata h2 {
+    margin-top: 0px;
+}
+
+#uploader-info {
+    margin-top: 25px;
+}
+
+#uploader-info .profile-picture {
+    width: 64px;
+    float: right;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+#uploader-info h3 {
+    margin-top: 5px;
+}
+
+#catlist {
+    padding: 0;
+    margin-left: 1px;
+}
+
+#catlist li {
+    padding: 0;
+    display: inline;
+}
+
+#catlist li:after {
+    content: ", "
+}
+
+#catlist li:last-child:after {
+    content: "";
+}
+
+#catlist li:nth-last-child(2):after {
+    content: ", ";
+}

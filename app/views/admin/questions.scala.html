@@ -1,0 +1,82 @@
+@(user: models.User)(qList: java.util.List[models.Question])
+
+@*
+    Question Listing page -- lists all questions and provides links with common actions, as well as saving new order
+*@
+
+
+@import helpers.FormatHelper.SecToMMSS
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+    <script src="@routes.Assets.at("javascripts/jquery.sortable.min.js")" type="text/javascript"></script>
+    <script>$(function(){
+        $(".sortable" ).sortable( {
+            handle: '.handle'
+        });
+
+        /* Gets a permutation of 1..N (number of questions), that
+         * describes new ordering, formats the numbers as comma separated list
+         * and submits it to the server. */
+        $("#save-button" ).click( function() {
+            var orders = [];
+            $(".sortable li" ).each(function(i, e) {
+                orders.push(e.getAttribute("data-order"));
+            });
+            $orderField = $("#orderField");
+            $orderField.attr("value", orders.join(","));
+            $orderField.parent().submit();
+        });
+    });</script>
+}
+
+@main("Admin Dashboard: Question Management - Careers From Here")(stylesheets)(javascripts)(user) {
+    @helper.form(action = routes.AdminController.reorderQuestions()) {
+        <input id="orderField" type="hidden" name="order" value="" />
+        @* Add CSRF *@
+    }
+    <div class="spacing-panel">
+        <div class="shadow-panel table-responsive">
+            <div style="float: right">
+                <a class="btn btn-default action-button"
+                href="@routes.AdminController.getNewQuestion()">
+                    <span class="glyphicon glyphicon-plus"></span> Add question</a>
+                <button class="btn btn-success action-button" id="save-button">
+                    <span class="glyphicon glyphicon-ok"></span> Save order
+                </button>
+            </div>
+
+            <h2>Questions</h2>
+            <span class="help-block">Reorder questions by dragging the handle, click 'Save' to save order.</span>
+            <hr>
+            <ul class="sortable">
+                @for(q <- qList) {
+                    <li class="clearfix" data-order="@q.getOrder">
+                        <div class="col-xs-1 handle"><span class="glyphicon glyphicon-resize-vertical"></span></div>
+                        <div class="col-xs-8">@q.getText</div>
+                        <div class="col-xs-1">@SecToMMSS(q.getDuration.toInt)</div>
+                        <div class="col-xs-2">
+                            <div class="action-button-place">
+                                <a class="btn btn-default action-button"
+                                href="@routes.AdminController.getQuestion(q.getId)">
+                                    <span class="glyphicon glyphicon-pencil"></span></a>
+                            </div>
+
+                            <div class="action-button-place">
+                            @helper.form(action = routes.AdminController.deleteQuestion) {
+                                <input type="hidden" name="id" value="@q.getId" />
+
+                                <button class="btn btn-danger action-button" type="submit">
+                                    <span class="glyphicon glyphicon-remove"></span></button>
+                            }
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}

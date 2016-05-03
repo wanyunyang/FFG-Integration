@@ -1,0 +1,55 @@
+@(user: models.User)(schoolList: java.util.List[models.School])
+
+@*
+    School Listing page -- lists all schools and provides links with common actions
+*@
+
+
+@stylesheets = {
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/admin.css")" />
+}
+
+@javascripts = {
+
+}
+
+@main("Admin Dashboard: School Management - Careers From Here")(stylesheets)(javascripts)(user) {
+    <div class="spacing-panel">
+        <div class="shadow-panel table-responsive">
+            <a class="btn btn-default action-button"
+            href="@routes.AdminController.getNewSchool()">
+                <span class="glyphicon glyphicon-plus"></span> Add school</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(school <- schoolList) {
+                    <tr>
+                        <td>@school.getName</td>
+                        <td>
+                            <div class="action-button-place">
+                                <a class="btn btn-default action-button"
+                                href="@routes.AdminController.getSchool(school.getId)">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                            </div>
+
+                            <div class="action-button-place">
+                            @helper.form(action = routes.AdminController.deleteSchool()) {
+                                <input type="hidden" name="id" value="@school.getId" />
+                                @* CSRF here *@
+                                <button class="btn btn-danger action-button" type="submit">
+                                    <span class="glyphicon glyphicon-remove"></span> Delete</button>
+                            }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
